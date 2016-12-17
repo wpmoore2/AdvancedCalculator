@@ -24,6 +24,8 @@
                 Visibility="Hidden"/>
         <!--Visibility to be taken out-->
         
+        <!--Test change-->
+        
         <!-- Matrix Menu Page -->
         <Label x:Name="matrixTitle" Content="Choose Your Matrix Operation" 
                FontSize="30" HorizontalAlignment="Left" Height="50" Margin="173,46,0,0" VerticalAlignment="Top" Width="428"/>
