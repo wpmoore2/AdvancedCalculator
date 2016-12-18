@@ -66,9 +66,27 @@ namespace AdvancedCalculatorView.src.View.Main
          * */
         private void inputMatrices(int num)
         {
-            MessageBox.Show("yaya");
+            
         }
 
+
+        private void inputMatrix()
+        {
+            getDimensions();
+        }
+
+        private void getDimensions()
+        {
+            dimensionsPrompt.Visibility = Visibility.Visible;
+            dimensionsInputCol.Visibility = Visibility.Visible;
+            dimensionsInputRow.Visibility = Visibility.Visible;
+            xLabel.Visibility = Visibility.Visible;
+            rowLabel.Visibility = Visibility.Visible;
+            colLable.Visibility = Visibility.Visible;
+
+            //Accept and store input. (probably in Matrix class)
+
+        }
         /**
          * Displays the view, allowing input for the number of matrices (to multiply)
          * */

@@ -14,15 +14,44 @@
 
         <!-- Number Input -->
         <Label x:Name="numberPrompt" Content="Number of matrices to be multiplied:" 
-               FontSize="20" HorizontalAlignment="Left" Height="53" Margin="66,103,0,0" VerticalAlignment="Top" Width="341"/>
+               FontSize="20" HorizontalAlignment="Left" Height="53" Margin="66,103,0,0" VerticalAlignment="Top" Width="341"
+               Visibility="Hidden"/>
+                <!-- To be removed -->
         <TextBox x:Name="numberInput" HorizontalAlignment="Left" Height="63" Margin="189,161,0,0" 
-                  TextWrapping="Wrap" VerticalAlignment="Top" Width="103" 
-                  FontSize="35" TextAlignment="Center" KeyDown="numberInput_KeyDown"/>
+               TextWrapping="Wrap" VerticalAlignment="Top" Width="103" 
+               FontSize="35" TextAlignment="Center" KeyDown="numberInput_KeyDown"
+               Visibility="Hidden"/>
+                <!-- To be removed -->
+
         <Button x:Name="numSubmitButton" Content="Submit" 
                 HorizontalAlignment="Left" Height="36" Margin="189,313,0,0" VerticalAlignment="Top" Width="103"
-                Click="numSubmitButton_Click"/>
+                Click="numSubmitButton_Click"
+               Visibility="Hidden"/>
+                <!-- To be removed -->
         <Label x:Name="numInputErrorLabel" Content="The number of matrices must be numeric and positive" 
-               FontSize="14" HorizontalAlignment="Left" Height="31" Margin="66,262,0,0" VerticalAlignment="Top" Width="382" FontWeight="SemiBold"/>
+               FontSize="14" HorizontalAlignment="Left" Height="31" Margin="66,262,0,0" VerticalAlignment="Top" Width="382" FontWeight="SemiBold"
+               Visibility="Hidden"/>
+                <!-- To be removed -->
+
+        <!-- Dimensions Input -->
+        <Label x:Name="dimensionsPrompt" Content="Specify the dimensions of matrix:" 
+               FontSize="20" HorizontalAlignment="Left" Height="53" Margin="66,103,0,0" VerticalAlignment="Top" Width="341"
+               />
+
+        <TextBox x:Name="dimensionsInputCol" HorizontalAlignment="Left" Height="44" Margin="127,218,0,0" 
+               TextWrapping="Wrap" VerticalAlignment="Top" Width="74" 
+               FontSize="35" TextAlignment="Center" KeyDown="numberInput_KeyDown"
+               />
+        <TextBox x:Name="dimensionsInputRow" HorizontalAlignment="Left" Height="44" Margin="266,218,0,0" 
+               TextWrapping="Wrap" VerticalAlignment="Top" Width="74" 
+               FontSize="35" TextAlignment="Center" KeyDown="numberInput_KeyDown"
+               />
+        <Label x:Name="rowLabel" Content="Rows" 
+               FontSize="16" HorizontalAlignment="Left" Height="28" Margin="127,173,0,0" VerticalAlignment="Top" Width="74"/>
+        <Label x:Name="colLable" Content="Columns" 
+               FontSize="16" HorizontalAlignment="Left" Height="28" Margin="266,173,0,0" VerticalAlignment="Top" Width="74"/>
+        <Label x:Name="xLabel" Content="X" 
+               FontSize="20" HorizontalAlignment="Left" Height="39" Margin="220,218,0,0" VerticalAlignment="Top" Width="41"/>
 
     </Grid>
 </Window>
