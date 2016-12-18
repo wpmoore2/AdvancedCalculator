@@ -78,8 +78,8 @@ namespace AdvancedCalculatorView.src.View.Main
         private void getDimensions()
         {
             dimensionsPrompt.Visibility = Visibility.Visible;
-            dimensionsInputCol.Visibility = Visibility.Visible;
-            dimensionsInputRow.Visibility = Visibility.Visible;
+            dimInputCol.Visibility = Visibility.Visible;
+            dimInputRow.Visibility = Visibility.Visible;
             xLabel.Visibility = Visibility.Visible;
             rowLabel.Visibility = Visibility.Visible;
             colLable.Visibility = Visibility.Visible;
@@ -87,6 +87,21 @@ namespace AdvancedCalculatorView.src.View.Main
             //Accept and store input. (probably in Matrix class)
 
         }
+
+        private void dimSubmitButton_Click(object sender, RoutedEventArgs e)
+        {
+            uint row = 0;
+            uint col = 0;
+            if (UInt32.TryParse(dimInputCol.Text, out col) && UInt32.TryParse(dimInputRow.Text, out row))
+            {
+                
+                inputMatrices(this.numMatrices);
+            }
+            else
+                numInputErrorLabel.Visibility = Visibility.Visible;
+        }
+
+
         /**
          * Displays the view, allowing input for the number of matrices (to multiply)
          * */
