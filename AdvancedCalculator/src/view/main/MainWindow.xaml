@@ -9,29 +9,29 @@
         >
     <Grid>
         <Label x:Name="createdLabel" Content="Created by Wade Moore"
-                HorizontalAlignment="Left" Height="25" Margin="573,428,0,0" VerticalAlignment="Top" Width="155"/>
+                HorizontalAlignment="Right" Height="25" Margin="0,0,5,20" VerticalAlignment="Bottom" Width="155"/>
         <Button x:Name="homeButton" Content="Home" 
                 FontSize="17" HorizontalAlignment="Left" Height="38" Margin="31,22,0,0" VerticalAlignment="Top" Width="92"
                 Click="HomeButton_Click"/>
         
         <!-- Main Menu Page -->
         <Label x:Name="mainSubTitle" Content="Choose Your Calculation!" 
-               FontSize="30"  HorizontalAlignment="Left" Height="48" Margin="192,46,0,0" VerticalAlignment="Top" Width="350"
+               FontSize="30"  HorizontalAlignment="Center" Height="48" Margin="0,46,0,0" VerticalAlignment="Top" Width="350"
                Visibility="Hidden"/> <!--To be taken out-->
         <Button x:Name="mainMatrixButton" Content="Matrix Operations" 
-                FontSize="25" HorizontalAlignment="Left" Height="38" Margin="230,120,0,0" VerticalAlignment="Top" Width="250"
+                FontSize="25" HorizontalAlignment="Center" Height="38" Margin="0,120,0,0" VerticalAlignment="Top" Width="250"
                 Click="MatrixButton_Click" 
                 Visibility="Hidden"/>
         <!--Visibility to be taken out-->
         
         <!-- Matrix Menu Page -->
         <Label x:Name="matrixTitle" Content="Choose Your Matrix Operation" 
-               FontSize="30" HorizontalAlignment="Left" Height="50" Margin="173,46,0,0" VerticalAlignment="Top" Width="428"/>
+               FontSize="30" HorizontalAlignment="Center" Height="50" Margin="0,46,0,0" VerticalAlignment="Top" Width="428"/>
         <Button x:Name="multiplyButton" Content="Multiplication" 
-                FontSize="25" HorizontalAlignment="Left" Height="45" Margin="261,134,0,0" VerticalAlignment="Top" Width="242"
+                FontSize="25" HorizontalAlignment="Center" Height="45" Margin="0,134,0,0" VerticalAlignment="Top" Width="242"
                 Click="MatrixMultiplyButton_Click"/>
         <Button x:Name="inverseButton" Content="Inverse" 
-               FontSize="25" HorizontalAlignment="Left" Height="45" Margin="261,214,0,0" VerticalAlignment="Top" Width="242"/>
+               FontSize="25" HorizontalAlignment="Center" Height="45" Margin="0,214,0,0" VerticalAlignment="Top" Width="242"/>
         
 
     </Grid>

@@ -63,11 +63,13 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="src\controller\MatrixController.cs" />
+    <Compile Include="src\model\dataBeans\Matrix.cs" />
     <Compile Include="src\View\Main\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="src\View\Main\MatrixGenerator.xaml">
+    <Page Include="src\View\Matrix\MatrixGenerator.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -77,7 +79,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="src\View\Main\MatrixGenerator.xaml.cs">
+    <Compile Include="src\View\Matrix\MatrixGenerator.xaml.cs">
       <DependentUpon>MatrixGenerator.xaml</DependentUpon>
     </Compile>
     <Compile Include="src\View\Matrix\MultplyWindow.xaml.cs">
@@ -108,6 +110,19 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="bin\images\LeftBracket4.JPG" />
+    <Resource Include="bin\images\LeftBracket6.JPG" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="obj\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="bin\images\LeftBracket8.JPG" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="bin\images\LeftBracket2.JPG" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

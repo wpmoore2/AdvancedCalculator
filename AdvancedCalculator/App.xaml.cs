@@ -14,4 +14,6 @@ namespace AdvancedCalculatorView
     public partial class App : Application
     {
     }
+
+    
 }
