@@ -19,7 +19,7 @@
 
 
         <!--Number Input-->
-
+    
         <Label x:Name="numberPrompt" Content="Number of matrices to be multiplied:" 
                FontSize="20" HorizontalAlignment="Center" Height="53" Margin="0,100,0,0" VerticalAlignment="Top" Width="330"
                />
@@ -45,6 +45,10 @@
         <Label x:Name="dimInputErrorLabel2" Content="The dimensions must be greater than (1x1) but no larger than (10x10)." 
                FontSize="14" HorizontalAlignment="Center" Height="31" Margin="0,420,0,0" VerticalAlignment="Top" Width="452" FontWeight="SemiBold"
                 />
+        <Label x:Name="dimInputErrorLabel3" 
+               Content="&#x09;The number of rows in the next matrix being multiplied,&#10;must equal the number of columns from the previously inputted matrix." 
+               FontSize="14" HorizontalAlignment="Center" Height="50" Margin="0,400,0,0" VerticalAlignment="Top" Width="470" FontWeight="SemiBold"
+               />
         <Label x:Name="dimensionsPrompt" Content="Specify the dimensions of matrix:"
                FontSize="20" HorizontalAlignment="Center" Height="67" Margin="0,125,0,0" VerticalAlignment="Top" Width="308"
                />
@@ -76,6 +80,7 @@
 
 
         <!--  Matrix Values Input -->
+        
         <Button x:Name="matrixSubmitButton" Content="Submit" FontSize="20"
                 HorizontalAlignment="Right" Height="40" Margin="0,0,50,25" VerticalAlignment="Bottom" Width="130"
                 Click="matrixSubmitButton_Click" 
@@ -186,8 +191,8 @@
         <Grid Name="matrixGrid" HorizontalAlignment="Center" Height="500" Margin="0,80,0,0" VerticalAlignment="Top" Width="720"
               >
             <Grid.RowDefinitions>
-                <RowDefinition Height="50" />
                 <!-- 1 -->
+                <RowDefinition Height="50" />
                 <RowDefinition Height="50" />
                 <RowDefinition Height="50" />
                 <RowDefinition Height="50" />
@@ -200,8 +205,8 @@
                 <!-- 10 -->
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="72"/>
                 <!-- 1 -->
+                <ColumnDefinition Width="72"/>
                 <ColumnDefinition Width="72" />
                 <ColumnDefinition Width="72" />
                 <ColumnDefinition Width="72" />

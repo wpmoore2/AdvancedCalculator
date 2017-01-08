@@ -48,6 +48,9 @@ namespace AdvancedCalculatorView.src.View.Main
             fillMatrixMap();
             disableAll();
 
+            numRow = 0;
+            numCol = 0;
+
             this.op = op;
             switch (this.op)
             {
@@ -237,6 +240,7 @@ namespace AdvancedCalculatorView.src.View.Main
             dimSubmitButton.Visibility = Visibility.Hidden;
             dimInputErrorLabel.Visibility = Visibility.Hidden;
             dimInputErrorLabel2.Visibility = Visibility.Hidden;
+            dimInputErrorLabel3.Visibility = Visibility.Hidden;
         }
 
         #endregion
@@ -439,6 +443,38 @@ namespace AdvancedCalculatorView.src.View.Main
             xLabel.Visibility = Visibility.Visible;
             rowLabel.Visibility = Visibility.Visible;
             colLable.Visibility = Visibility.Visible;
+
+        }
+
+        /**
+         *      DISPLAY - for Dimensions
+         * */
+        private void viewGetDimensions(int numCol)
+        {
+            currPage = Page.MATRIXDIM;
+            disableAll();
+
+            dimensionsPrompt.Visibility = Visibility.Visible;
+            dimPromptMax.Visibility = Visibility.Visible;
+            dimInputCol.Visibility = Visibility.Visible;
+            dimInputRow.Visibility = Visibility.Visible;
+            dimSubmitButton.Visibility = Visibility.Visible;
+            xLabel.Visibility = Visibility.Visible;
+            rowLabel.Visibility = Visibility.Visible;
+            colLable.Visibility = Visibility.Visible;
+
+
+            dimInputRow.IsUndoEnabled = false;
+
+
+            dimInputCol.Text = "0";
+            if (numCol != 0)
+            {
+                dimInputCol.Text = numCol.ToString();
+                dimInputRow.IsReadOnly = true;
+                dimInputRow.GotMouseCapture -= textBox_GotMouseCapture;
+                dimInputRow.GotMouseCapture += disabledRowDim_Click;
+            }
         }
 
         private void dimSubmitButton_Click(object sender, RoutedEventArgs e)
@@ -473,25 +509,32 @@ namespace AdvancedCalculatorView.src.View.Main
                 viewGetNumMatrices();
             else if (currPage == Page.MATRIXDIM && op != MatrixOperation.MULTIPLY)
                 this.Close();
-            else if (currPage == Page.MATRIXINPUT)
-                viewGetDimensions();
+            else if (currPage == Page.MATRIXINPUT && op == MatrixOperation.MULTIPLY)
+                viewGetDimensions(numCol);
             else if (currPage == Page.NUMMATRICES)
                 this.Close();
         }
 
         private void matrixSubmitButton_Click(object sender, RoutedEventArgs e)
         {
+            //Start creating the matrix from the most center point (startPos)
             int startPos = 10 * (4 - (numRow / 2) + ((numRow + 1) % 2)) + (4 - (numCol / 2) + ((numCol + 1) % 2));
             int[][] mat = new int[numRow][];
             int next;
-            
-            int i = 0, j = 0;
+
+            int i = 0;
+            //Linear 10x10 array, next column is current + 10
             for (int r = 0; r < numRow * 10; r += 10)
             {
+                mat[i] = new int[numCol];
                 for (int c = 0; c < numCol; c++)
                 {
+                    int j = 1;
                     if (Int32.TryParse(matrixMap[startPos + r + c].Text, out next))
-                        mat[i][j] = next;
+                    {
+                        mat[i][j - 1] = next;
+                        matrixMap[startPos + r + c].Text = "0";
+                    }
                     else
                     {
                         matrixInputErrorLabel.Visibility = Visibility.Visible;
@@ -511,7 +554,7 @@ namespace AdvancedCalculatorView.src.View.Main
             else
             {
                 currMatrix++;
-                viewGetDimensions();
+                viewGetDimensions(numCol);
             }
         }
 
@@ -526,6 +569,18 @@ namespace AdvancedCalculatorView.src.View.Main
             textBox.SelectAll();
         }
 
-        
+        /**
+         *     Explains why the row dimension is disabled when inputted another matrix.
+         *     
+         *     Why: When multiplying matrices, the first matrix's number of columns must
+         *          equal the next matrix's number of rows. 
+         * */
+        private void disabledRowDim_Click(object sender, RoutedEventArgs e)
+        {
+            dimInputErrorLabel3.Visibility = Visibility.Visible;
+        }
+
+
+
     }
 }
