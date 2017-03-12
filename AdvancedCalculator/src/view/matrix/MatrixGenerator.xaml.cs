@@ -28,8 +28,8 @@ namespace AdvancedCalculatorView.src.View.Main
         private Page currPage;
         private const uint MAX_NUM_MATRICES = 10;
 
-        private int numRow;
-        private int numCol;
+        private int currNumRow;
+        private int currNumCol;
         private int totalMatrices;
         private int currMatrix;
 
@@ -48,8 +48,9 @@ namespace AdvancedCalculatorView.src.View.Main
             fillMatrixMap();
             disableAll();
 
-            numRow = 0;
-            numCol = 0;
+            currNumRow = 0;
+            currNumCol = 0;
+            currMatrix = 0;
 
             this.op = op;
             switch (this.op)
@@ -61,11 +62,24 @@ namespace AdvancedCalculatorView.src.View.Main
 
                 case MatrixOperation.INVERSE:
                     currPage = Page.MATRIXDIM;
-                    inputMatrices();
+                    inputDimensions();
                     break;
             }
             
         }
+
+      
+
+
+        /**
+         *  The initial method used first to 
+         *  start inputting a custom matrix.
+         * */
+        private void inputDimensions()
+        {
+            viewGetDimensions(0, 0, true);
+        }
+
         #region fill matrix map
 
         private void fillMatrixMap()
@@ -221,7 +235,7 @@ namespace AdvancedCalculatorView.src.View.Main
         private void disableNumMatricesView()
         {
             //Number of matrices prompt
-            numInputErrorLabel.Visibility = Visibility.Hidden;
+            numInputSignError.Visibility = Visibility.Hidden;
             numSubmitButton.Visibility = Visibility.Hidden;
             numberPrompt.Visibility = Visibility.Hidden;
             numberInput.Visibility = Visibility.Hidden;
@@ -238,9 +252,20 @@ namespace AdvancedCalculatorView.src.View.Main
             colLable.Visibility = Visibility.Hidden;
             xLabel.Visibility = Visibility.Hidden;
             dimSubmitButton.Visibility = Visibility.Hidden;
-            dimInputErrorLabel.Visibility = Visibility.Hidden;
-            dimInputErrorLabel2.Visibility = Visibility.Hidden;
-            dimInputErrorLabel3.Visibility = Visibility.Hidden;
+            dimInputSignError.Visibility = Visibility.Hidden;
+            dimInputSizeError.Visibility = Visibility.Hidden;
+            dimInputRowLockError.Visibility = Visibility.Hidden;
+        }
+
+        private void clearErrors()
+        {
+            // Matrix Dim input
+            dimInputSignError.Visibility = Visibility.Hidden;
+            dimInputSizeError.Visibility = Visibility.Hidden;
+            dimInputRowLockError.Visibility = Visibility.Hidden;
+
+            // Num of Matrices input
+            numInputSignError.Visibility = Visibility.Hidden;
         }
 
         #endregion
@@ -278,38 +303,24 @@ namespace AdvancedCalculatorView.src.View.Main
             uint ret = 0;
             if (UInt32.TryParse(numberInput.Text, out ret) && ret > 1 && ret < MAX_NUM_MATRICES)
             {
-                mc.setNumMatrices((int)ret);
                 this.totalMatrices = (int)ret;
-                this.currMatrix = 1;
-                inputMatrices();
+                inputDimensions();
             }
             else
-                numInputErrorLabel.Visibility = Visibility.Visible;
+                numInputSignError.Visibility = Visibility.Visible;
 
         }
 
         #endregion
 
 
-        /**
-         * 
-         * 
-         * */
-        private void inputMatrices()
-        {
-            inputDimensions();
-        }
-
-
-        private void inputDimensions()
-        {
-            viewGetDimensions();
-        }
 
         private void inputMatrix()
         {
             viewMatrixGrid();
         }
+
+        #region Views
 
         /**
          *      DISPLAY - for Matrix input
@@ -321,11 +332,11 @@ namespace AdvancedCalculatorView.src.View.Main
             matrixSubmitButton.Visibility = Visibility.Visible;
 
             //Start creating the matrix from the most center point (startPos)
-            int startPos = 10 * (4 - (numRow / 2) + ((numRow + 1) % 2)) + (4 - (numCol / 2) + ((numCol + 1) % 2));
+            int startPos = this.getStartPos();
 
-            for (int r = 0; r < numRow * 10; r += 10)
+            for (int r = 0; r < currNumRow * 10; r += 10)
             {
-                for (int c = 0; c < numCol; c++)
+                for (int c = 0; c < currNumCol; c++)
                 {
                     matrixMap[startPos + r + c].Visibility = Visibility.Visible;
                 }
@@ -333,10 +344,10 @@ namespace AdvancedCalculatorView.src.View.Main
 
             #region brackets view
 
-            int leftOffset = 72 * (5 - ((numCol + 1) / 2));
-            int rightOffset = 72 * (5 - (numCol  / 2));
+            int leftOffset = 72 * (5 - ((currNumCol + 1) / 2));
+            int rightOffset = 72 * (5 - (currNumCol  / 2));
 
-            switch (numRow)
+            switch (currNumRow)
             {
                 case 1:
                     leftBracket2.Visibility = Visibility.Visible;
@@ -428,111 +439,98 @@ namespace AdvancedCalculatorView.src.View.Main
 
 
         /**
-         *      DISPLAY - for Dimensions
-         * */
-        private void viewGetDimensions()
-        {
-            currPage = Page.MATRIXDIM;
-            disableAll();
+        *      DISPLAY - for Dimensions of a matrix.
+        *      For when navigating backwards.  The number 
+        *      of columns and rows specified are the dimensions
+        *      of the most recent matrix. If a matrix has already
+        *      been inputted, and the calculation is multiplication,
+        *      then editable will be false. Becuase the number of 
+        *      rows of the right hand matrix, must equal the nmber
+        *      of the columns of the left hand matrix.
+        *      
+        *      @prevCol  most recent number of columns
+        *      @prevRow  most recent number of rows
+        *      @editable true if the rows input field can be edited; false if read only
+        **/
+        private void viewGetDimensions(int prevRow, int prevCol, bool editable)
+       {
+           currPage = Page.MATRIXDIM;
+           disableAll();
 
-            dimensionsPrompt.Visibility = Visibility.Visible;
-            dimPromptMax.Visibility = Visibility.Visible;
-            dimInputCol.Visibility = Visibility.Visible;
-            dimInputRow.Visibility = Visibility.Visible;
-            dimSubmitButton.Visibility = Visibility.Visible;
-            xLabel.Visibility = Visibility.Visible;
-            rowLabel.Visibility = Visibility.Visible;
-            colLable.Visibility = Visibility.Visible;
+           dimensionsPrompt.Visibility = Visibility.Visible;
+           dimPromptMax.Visibility = Visibility.Visible;
+           dimInputCol.Visibility = Visibility.Visible;
+           dimInputRow.Visibility = Visibility.Visible;
+           dimSubmitButton.Visibility = Visibility.Visible;
+           xLabel.Visibility = Visibility.Visible;
+           rowLabel.Visibility = Visibility.Visible;
+           colLable.Visibility = Visibility.Visible;
 
-        }
+           dimInputCol.Text = prevCol.ToString();
+           dimInputRow.Text = prevRow.ToString();
 
-        /**
-         *      DISPLAY - for Dimensions
-         * */
-        private void viewGetDimensions(int numCol)
-        {
-            currPage = Page.MATRIXDIM;
-            disableAll();
-
-            dimensionsPrompt.Visibility = Visibility.Visible;
-            dimPromptMax.Visibility = Visibility.Visible;
-            dimInputCol.Visibility = Visibility.Visible;
-            dimInputRow.Visibility = Visibility.Visible;
-            dimSubmitButton.Visibility = Visibility.Visible;
-            xLabel.Visibility = Visibility.Visible;
-            rowLabel.Visibility = Visibility.Visible;
-            colLable.Visibility = Visibility.Visible;
-
-
-            dimInputRow.IsUndoEnabled = false;
-
-
-            dimInputCol.Text = "0";
-            if (numCol != 0)
+            if (!editable)
             {
-                dimInputCol.Text = numCol.ToString();
+                dimInputRow.Background = Brushes.LightGray;
+                dimInputCol.Text = prevCol.ToString();
                 dimInputRow.IsReadOnly = true;
                 dimInputRow.GotMouseCapture -= textBox_GotMouseCapture;
                 dimInputRow.GotMouseCapture += disabledRowDim_Click;
             }
         }
 
+        #endregion
+
+        #region Submit Buttons
         private void dimSubmitButton_Click(object sender, RoutedEventArgs e)
-        {
-            uint row = 0;
-            uint col = 0;
-            if (UInt32.TryParse(dimInputCol.Text, out col) && UInt32.TryParse(dimInputRow.Text, out row))
-            {
-                if ((row > 1 || col > 1) && row <= 10 && col <= 10)
-                {
-                    this.numRow = (int)row;
-                    this.numCol = (int)col;
-                    inputMatrix();
-                }
-                else
-                {
-                    dimInputErrorLabel.Visibility = Visibility.Hidden;
-                    dimInputErrorLabel2.Visibility = Visibility.Visible;
-                }
-            }
-            else
-            {
-                dimInputErrorLabel2.Visibility = Visibility.Hidden;
-                dimInputErrorLabel.Visibility = Visibility.Visible;
-            }
-        }
+       {
+           uint row = 0;
+           uint col = 0;
+           if (UInt32.TryParse(dimInputCol.Text, out col) && UInt32.TryParse(dimInputRow.Text, out row))
+           {
+               if ((row > 1 || col > 1) && row <= 10 && col <= 10)
+               {
+                   this.currNumRow = (int)row;
+                   this.currNumCol = (int)col;
+                   inputMatrix();
+               }
+               else
+               {
+                   clearErrors();
+                   dimInputSizeError.Visibility = Visibility.Visible;
+               }
+           }
+           else
+           {
+                clearErrors();
+                dimInputSignError.Visibility = Visibility.Visible;
+           }
+       }
 
-        private void backButton_Click(object sender, RoutedEventArgs e )
-        {
-            disableAll();
-            if (currPage == Page.MATRIXDIM && op == MatrixOperation.MULTIPLY)
-                viewGetNumMatrices();
-            else if (currPage == Page.MATRIXDIM && op != MatrixOperation.MULTIPLY)
-                this.Close();
-            else if (currPage == Page.MATRIXINPUT && op == MatrixOperation.MULTIPLY)
-                viewGetDimensions(numCol);
-            else if (currPage == Page.NUMMATRICES)
-                this.Close();
-        }
 
+        /**
+         *   The function handles when the user sumbits a matrix.
+         *   
+         *   **No parameters, but currNumRow and currNumCol are global variables.
+         **/
         private void matrixSubmitButton_Click(object sender, RoutedEventArgs e)
         {
             //Start creating the matrix from the most center point (startPos)
-            int startPos = 10 * (4 - (numRow / 2) + ((numRow + 1) % 2)) + (4 - (numCol / 2) + ((numCol + 1) % 2));
-            int[][] mat = new int[numRow][];
+            int startPos = this.getStartPos();
+            int[][] mat = new int[currNumRow][];
             int next;
 
             int i = 0;
             //Linear 10x10 array, next column is current + 10
-            for (int r = 0; r < numRow * 10; r += 10)
+            for (int r = 0; r < currNumRow * 10; r += 10)
             {
-                mat[i] = new int[numCol];
-                for (int c = 0; c < numCol; c++)
+                int j = 0;
+                mat[i] = new int[currNumCol];
+                for (int c = 0; c < currNumCol; c++)
                 {
-                    int j = 1;
                     if (Int32.TryParse(matrixMap[startPos + r + c].Text, out next))
                     {
-                        mat[i][j - 1] = next;
+                        mat[i][j] = next;
                         matrixMap[startPos + r + c].Text = "0";
                     }
                     else
@@ -546,22 +544,39 @@ namespace AdvancedCalculatorView.src.View.Main
             }
 
             AdvancedCalculator.Matrix newMat = new AdvancedCalculator.Matrix(mat);
-            mc.addMatrix(newMat);
+            if ( currMatrix < mc.getNumMatrices())
+            {
+                mc.updateMatrix(newMat, currMatrix);
+            }
+            else
+            {
+                mc.addMatrix(newMat);
+            }
 
-            if (currMatrix == totalMatrices)
+            // currMatrix is zero based index
+            if (currMatrix == (totalMatrices - 1))
+            {
                 //Finishing page and close
+
+                // HERE IS WHERE MATH WILL GO!!
                 this.Close();
+            }
             else
             {
                 currMatrix++;
-                viewGetDimensions(numCol);
+                if (currMatrix < mc.getNumMatrices())
+                    loadMatrix(currMatrix);
+                viewGetDimensions(currNumRow, currNumCol, false);
             }
         }
 
 
-        /**
-         *     Highlights text when a TextBox is selected.
-         * */
+           #endregion
+
+
+            /**
+             *     Highlights text when a TextBox is selected.
+             * */
         private void textBox_GotMouseCapture(object sender, RoutedEventArgs e)
         {
             TextBox textBox = (TextBox)sender;
@@ -577,9 +592,80 @@ namespace AdvancedCalculatorView.src.View.Main
          * */
         private void disabledRowDim_Click(object sender, RoutedEventArgs e)
         {
-            dimInputErrorLabel3.Visibility = Visibility.Visible;
+            clearErrors();
+            dimInputRowLockError.Visibility = Visibility.Visible;
         }
 
+        /**
+         *      BACK BUTTON - function in control of navigating the
+         *                    pages of the matrix generator. Allowing
+         *                    the user to transverse backwards and forwards,
+         *                    with their inputted information staying saved.
+         * 
+         **/
+        private void backButton_Click(object sender, RoutedEventArgs e)
+        {
+            disableAll();
+
+            switch (currPage)
+            {
+                case Page.NUMMATRICES:
+                    this.Close();
+                    break;
+                case Page.MATRIXDIM:
+                    if (op == MatrixOperation.INVERSE)
+                        this.Close();
+                    else if (this.currMatrix == 0)
+                        viewGetNumMatrices();
+                    else
+                    {
+                        this.currMatrix--;
+                        loadMatrix(currMatrix);
+                        viewMatrixGrid();
+                    }
+                    break;
+                case Page.MATRIXINPUT:
+                    if (op == MatrixOperation.INVERSE || currMatrix == 0)
+                        viewGetDimensions(this.currNumRow, this.currNumCol, true);
+                    else
+                        viewGetDimensions(this.currNumRow, this.currNumCol, false);
+                    break;
+            }
+        }
+
+        /**
+         *  The method is passed the index, and uses
+         *  the MatrixController to retrieve the corresponding matrix.
+         *  It then updates the current values for the number of rows and
+         *  columns, and also updates the values in the Matrix input boxes.
+         *  
+         *  @param currMatrix       The index of the current matrix needed.
+         **/
+        private void loadMatrix(int currMatrix)
+        {
+            AdvancedCalculator.Matrix mat = this.mc.getMatrix(currMatrix);
+            this.currNumRow = mat.getRow();
+            this.currNumCol = mat.getCol();
+            int startPos = this.getStartPos();
+            for (int r = 0; r < currNumRow * 10; r += 10)
+            {
+                for (int c = 0; c < currNumCol; c++)
+                {
+                    matrixMap[startPos + r + c].Text = mat.getValue((r / 10), c).ToString();
+                }
+            }
+        }
+
+
+        /**
+         *   Return the index of the most center start position of the current
+         *   matrix in the 10x10 grid. Using the current number of rows and columns.
+         * */
+        private int getStartPos()
+        {
+            return 10 * (4 - (currNumRow / 2) + ((currNumRow + 1) % 2)) 
+                      + (4 - (currNumCol / 2) + ((currNumCol + 1) % 2));
+        }
 
 
     }

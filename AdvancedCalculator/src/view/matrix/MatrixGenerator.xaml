@@ -31,7 +31,7 @@
                 HorizontalAlignment="Center" Height="36" Margin="0,313,0,0" VerticalAlignment="Top" Width="100"
                 Click="numSubmitButton_Click"
                />
-        <Label x:Name="numInputErrorLabel" Content="The number of matrices must be a positive integer greater than one." 
+        <Label x:Name="numInputSignError" Content="The number of matrices must be a positive integer greater than one." 
                FontSize="14" HorizontalAlignment="Center" Height="31" Margin="0,260,0,0" VerticalAlignment="Top" Width="450" FontWeight="SemiBold"
                />
 
@@ -39,13 +39,13 @@
 
         <!--Dimensions Input-->
 
-        <Label x:Name="dimInputErrorLabel" Content="The dimensions must be positive integers." 
+        <Label x:Name="dimInputSignError" Content="The dimensions must be positive integers." 
                FontSize="14" HorizontalAlignment="Center" Height="31" Margin="0,420,0,0" VerticalAlignment="Top" Width="279" FontWeight="SemiBold"
                 />
-        <Label x:Name="dimInputErrorLabel2" Content="The dimensions must be greater than (1x1) but no larger than (10x10)." 
+        <Label x:Name="dimInputSizeError" Content="The dimensions must be greater than (1x1) but no larger than (10x10)." 
                FontSize="14" HorizontalAlignment="Center" Height="31" Margin="0,420,0,0" VerticalAlignment="Top" Width="452" FontWeight="SemiBold"
                 />
-        <Label x:Name="dimInputErrorLabel3" 
+        <Label x:Name="dimInputRowLockError" 
                Content="&#x09;The number of rows in the next matrix being multiplied,&#10;must equal the number of columns from the previously inputted matrix." 
                FontSize="14" HorizontalAlignment="Center" Height="50" Margin="0,400,0,0" VerticalAlignment="Top" Width="470" FontWeight="SemiBold"
                />
