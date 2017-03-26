@@ -47,6 +47,9 @@ namespace AdvancedCalculatorView.src.View.Main
             matrixMap = new TextBox[100];
             fillMatrixMap();
             disableAll();
+            // The current matrix label is on multiple pages.
+            // Its visibility is handled manually
+            this.currMatrixLabel.Visibility = Visibility.Hidden;
 
             currNumRow = 0;
             currNumCol = 0;
@@ -62,6 +65,7 @@ namespace AdvancedCalculatorView.src.View.Main
 
                 case MatrixOperation.INVERSE:
                     currPage = Page.MATRIXDIM;
+                    this.totalMatrices = 1;
                     inputDimensions();
                     break;
             }
@@ -207,7 +211,6 @@ namespace AdvancedCalculatorView.src.View.Main
             disableNumMatricesView();
             disableDimView();
             disableMatrixGrid();
-
         }
 
         private void disableMatrixGrid()
@@ -298,6 +301,9 @@ namespace AdvancedCalculatorView.src.View.Main
             }
         }
 
+        /**
+         *  The submit button for entereing the total of matrices to multiply.
+         * */
         private void numSubmitButton_Click(object sender, RoutedEventArgs e)
         {
             uint ret = 0;
@@ -456,6 +462,8 @@ namespace AdvancedCalculatorView.src.View.Main
        {
            currPage = Page.MATRIXDIM;
            disableAll();
+           this.updateMatrixLabel();
+           currMatrixLabel.Visibility = Visibility.Visible;
 
            dimensionsPrompt.Visibility = Visibility.Visible;
            dimPromptMax.Visibility = Visibility.Visible;
@@ -571,12 +579,12 @@ namespace AdvancedCalculatorView.src.View.Main
         }
 
 
-           #endregion
+        #endregion
 
-
-            /**
-             *     Highlights text when a TextBox is selected.
-             * */
+        #region Helper Functions
+        /**
+         *     Highlights text when a TextBox is selected.
+         * */
         private void textBox_GotMouseCapture(object sender, RoutedEventArgs e)
         {
             TextBox textBox = (TextBox)sender;
@@ -616,7 +624,10 @@ namespace AdvancedCalculatorView.src.View.Main
                     if (op == MatrixOperation.INVERSE)
                         this.Close();
                     else if (this.currMatrix == 0)
+                    {
+                        this.currMatrixLabel.Visibility = Visibility.Hidden;
                         viewGetNumMatrices();
+                    }
                     else
                     {
                         this.currMatrix--;
@@ -663,10 +674,22 @@ namespace AdvancedCalculatorView.src.View.Main
          * */
         private int getStartPos()
         {
-            return 10 * (4 - (currNumRow / 2) + ((currNumRow + 1) % 2)) 
+            return 10 * (4 - (currNumRow / 2) + ((currNumRow + 1) % 2))
                       + (4 - (currNumCol / 2) + ((currNumCol + 1) % 2));
         }
 
+        /**
+         *   Set the currMatrixLabel so that it displays the current Matrix
+         *   that is being edited.
+         * */
+        private void updateMatrixLabel()
+        {
+            this.currMatrixLabel.Content = String.Format("Editing Matrix {0} of {1}",
+                (this.currMatrix + 1),
+                this.totalMatrices);
+        }
+
+        #endregion
 
     }
 }

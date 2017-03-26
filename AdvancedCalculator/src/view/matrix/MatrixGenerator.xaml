@@ -329,7 +329,9 @@
             <TextBox Name="cell99" Grid.Row="9" Grid.Column="9" Margin="5,5,5,5" TextAlignment="Center" FontSize="20" Text="0" GotMouseCapture="textBox_GotMouseCapture" GotFocus="textBox_GotMouseCapture"/>
         </Grid>
         <Label x:Name="matrixInputErrorLabel" Content="All entries must be integer values." 
-               FontSize="18" HorizontalAlignment="Center" Height="45" Margin="0,600,0,0" VerticalAlignment="Top" Width="280"/>
+               FontSize="18" HorizontalAlignment="Center" Height="45" Margin="0,0,0,20" VerticalAlignment="Bottom" Width="280"/>
+        <Label x:Name="currMatrixLabel" Content="Editing Matrix 1 of 1" HorizontalAlignment="Left" Height="30" Margin="50,0,0,30" 
+               FontSize="16" VerticalAlignment="Bottom" Width="160"/>
 
     </Grid>
 </Window>
