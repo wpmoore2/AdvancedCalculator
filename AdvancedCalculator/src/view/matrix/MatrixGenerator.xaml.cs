@@ -477,26 +477,40 @@ namespace AdvancedCalculatorView.src.View.Main
            dimInputCol.Text = prevCol.ToString();
            dimInputRow.Text = prevRow.ToString();
 
-            if (!editable)
-            {
-                dimInputRow.Background = Brushes.LightGray;
-                dimInputCol.Text = prevCol.ToString();
-                dimInputRow.IsReadOnly = true;
-                dimInputRow.GotMouseCapture -= textBox_GotMouseCapture;
-                dimInputRow.GotMouseCapture += disabledRowDim_Click;
-            }
+            if (editable)
+                enableRow();
+            else
+                disableRow();
+        }
+
+        private void enableRow()
+        {
+            dimInputRow.Background = Brushes.White;
+            dimInputRow.IsReadOnly = false;
+            dimInputRow.GotMouseCapture += textBox_GotMouseCapture;
+            // Disable error message when clicked
+            dimInputRow.GotMouseCapture -= disabledRowDim_Click;
+        }
+
+        private void disableRow()
+        {
+            dimInputRow.Background = Brushes.LightGray;
+            dimInputRow.IsReadOnly = true;
+            dimInputRow.GotMouseCapture -= textBox_GotMouseCapture;
+            // Enable error message when clicked
+            dimInputRow.GotMouseCapture += disabledRowDim_Click;
         }
 
         #endregion
 
         #region Submit Buttons
         private void dimSubmitButton_Click(object sender, RoutedEventArgs e)
-       {
+        {
            uint row = 0;
            uint col = 0;
            if (UInt32.TryParse(dimInputCol.Text, out col) && UInt32.TryParse(dimInputRow.Text, out row))
            {
-               if ((row > 1 || col > 1) && row <= 10 && col <= 10)
+               if (row >= 1 && col >= 1 && row <= 10 && col <= 10)
                {
                    this.currNumRow = (int)row;
                    this.currNumCol = (int)col;
@@ -631,6 +645,7 @@ namespace AdvancedCalculatorView.src.View.Main
                     else
                     {
                         this.currMatrix--;
+                        updateMatrixLabel();
                         loadMatrix(currMatrix);
                         viewMatrixGrid();
                     }
