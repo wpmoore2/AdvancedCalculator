@@ -1,8 +1,8 @@
-﻿<Application x:Class="AdvancedCalculatorView.App"
+﻿<Application x:Class="AdvancedCalculatorApp.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:AdvancedCalculatorView"
-             StartupUri="src/View/Main/MainWindow.xaml">
+             >
     <Application.Resources>
          
     </Application.Resources>

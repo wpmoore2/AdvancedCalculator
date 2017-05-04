@@ -14,7 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using static AdvancedCalculatorView.MainWindow;
 
-namespace AdvancedCalculatorView.src.View.Main
+namespace AdvancedCalculatorView.src.View.Matrix
 {
     /// <summary>
     /// Interaction logic for MatrixGenerator.xaml

@@ -62,7 +62,7 @@ namespace AdvancedCalculator
             try
             {
                 ret = this.matrixList[index];
-            } catch (IndexOutOfRangeException e)
+            } catch (IndexOutOfRangeException)
             {
                 return null;    
             }

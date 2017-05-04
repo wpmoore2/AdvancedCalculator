@@ -6,13 +6,24 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace AdvancedCalculatorView
+using AdvancedCalculatorView.src.View.Matrix;
+
+namespace AdvancedCalculatorApp
 {
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
     public partial class App : Application
     {
+
+        public App()
+        {
+            AdvancedCalculatorView.MainWindow mw = new AdvancedCalculatorView.MainWindow();
+            mw.Show();
+
+
+        }
+
     }
 
     
