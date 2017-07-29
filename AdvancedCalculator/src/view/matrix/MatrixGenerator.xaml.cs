@@ -18,6 +18,7 @@ namespace AdvancedCalculatorView.src.View.Matrix
 {
     /// <summary>
     /// Interaction logic for MatrixGenerator.xaml
+	//test
     /// </summary>
     public partial class MatrixGenerator : Window
     {
